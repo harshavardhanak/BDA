@@ -1,0 +1,161 @@
+cqlsh> use Employee;
+InvalidRequest: Error from server: code=2200 [Invalid query] message="Keyspace 'employee' does not exist"
+cqlsh> create keyspace Employee 
+   ... with replication = {'class':'SimpleStrategy','replication_factor':1};
+cqlsh> use Employee;
+cqlsh:employee> create table Employee-info (
+            ... Emp_Id int ,
+            ... Emp_name text, 
+            ... Designation text , 
+            ... Date_of_joining timestamp,
+            ... Salary int );
+SyntaxException: line 1:21 no viable alternative at input '-' (create table [Employee]-...)
+cqlsh:employee> create table Employee-info ( Emp_Id int , Emp_name text,  Designation text ,  Date_of_joining timestamp, Salary int , primary key(Emp_Id));
+SyntaxException: line 1:21 no viable alternative at input '-' (create table [Employee]-...)
+cqlsh:employee> create table Employee_info ( Emp_Id int , Emp_name text,  Designation text ,  Date_of_joining timestamp, Salary int , primary key(Emp_Id));
+cqlsh:employee> select * from Employee_info
+            ... ;
+
+ emp_id | date_of_joining | designation | emp_name | salary
+--------+-----------------+-------------+----------+--------
+
+(0 rows)
+cqlsh:employee> begin batch insert into Employee_info ( Emp_id, Emp_name,Designation, Date_of_joining,Salary) values 
+            ... 
+cqlsh:employee> alter table Employee add dept_name text;
+InvalidRequest: Error from server: code=2200 [Invalid query] message="unconfigured table employee"
+cqlsh:employee> alter table Employee_info add dept_name text;
+cqlsh:employee> select * from Employee_info;
+
+ emp_id | date_of_joining | dept_name | designation | emp_name | salary
+--------+-----------------+-----------+-------------+----------+--------
+
+(0 rows)
+cqlsh:employee> begin batch 
+            ... insert into Employee_info ( emp_id, date_of_joining, dept_name, designation,emp_name,salary) values ( 121,'2019-07-21','CSE','Manager','Harsha',1000)
+            ... insert into Employee_info ( emp_id, date_of_joining, dept_name, designation, emp_name, salary) values ( 122, '2019-08-22','BT' , 'Manager', 'Rachana',2000)
+            ... insert into Empoyee_info ( emp_id, date_of_joining, dept_name, designation, emp_name, salary) values ( 123, '2019-09-23', 'ISE', 'Attender', 'Sumit',3000);
+            ... ;
+            ... apply batch ;
+SyntaxException: line 5:0 mismatched input ';' expecting K_APPLY (... 'Attender', 'Sumit',3000);[;]...)
+cqlsh:employee> begin batch  insert into Employee_info ( emp_id, date_of_joining, dept_name, designation,emp_name,salary) values ( 121,'2019-07-21','CSE','Manager','Harsha',1000) insert into Employee_info ( emp_id, date_of_joining, dept_name, designation, emp_name, salary) values ( 122, '2019-08-22','BT' , 'Manager', 'Rachana',2000) insert into Empoyee_info ( emp_id, date_of_joining, dept_name, designation, emp_name, salary) values ( 123, '2019-09-23', 'ISE', 'Attender', 'Sumit',3000)  apply batch ;
+InvalidRequest: Error from server: code=2200 [Invalid query] message="unconfigured table empoyee_info"
+cqlsh:employee> begin batch  insert into Employee_info ( emp_id, date_of_joining, dept_name, designation,emp_name,salary) values ( 121,'2019-07-21','CSE','Manager','Harsha',1000) insert into Employee_info ( emp_id, date_of_joining, dept_name, designation, emp_name, salary) values ( 122, '2019-08-22','BT' , 'Manager', 'Rachana',2000) insert into Employee_info ( emp_id, date_of_joining, dept_name, designation, emp_name, salary) values ( 123, '2019-09-23', 'ISE', 'Attender', 'Sumit',3000)  apply batch ;
+cqlsh:employee> select * from Employee_info ; 
+
+ emp_id | date_of_joining                 | dept_name | designation | emp_name | salary
+--------+---------------------------------+-----------+-------------+----------+--------
+    123 | 2019-09-22 18:30:00.000000+0000 |       ISE |    Attender |    Sumit |   3000
+    122 | 2019-08-21 18:30:00.000000+0000 |        BT |     Manager |  Rachana |   2000
+    121 | 2019-07-20 18:30:00.000000+0000 |       CSE |     Manager |   Harsha |   1000
+
+(3 rows)
+cqlsh:employee> update Employee_info 
+            ... set emp_name = 'Hithesh' and designation = 'Attender' where emp_id = 121;
+SyntaxException: line 2:25 mismatched input 'and' expecting K_WHERE (...Employee_info set emp_name = 'Hithesh' [and]...)
+cqlsh:employee> set emp_name = 'Hithesh', designation = 'Attender' where emp_id = 121;
+SyntaxException: line 1:0 no viable alternative at input 'set' ([set]...)
+cqlsh:employee> update Employee_info set emp_name='Hithesh',designation='Attender' where emp_id=121; 
+cqlsh:employee> select * from Employee_info;
+
+ emp_id | date_of_joining                 | dept_name | designation | emp_name | salary
+--------+---------------------------------+-----------+-------------+----------+--------
+    123 | 2019-09-22 18:30:00.000000+0000 |       ISE |    Attender |    Sumit |   3000
+    122 | 2019-08-21 18:30:00.000000+0000 |        BT |     Manager |  Rachana |   2000
+    121 | 2019-07-20 18:30:00.000000+0000 |       CSE |    Attender |  Hithesh |   1000
+
+(3 rows)
+cqlsh:employee> alter table Employee_info 
+            ... add project text ;
+cqlsh:employee> select * from Employee_info;
+
+ emp_id | date_of_joining                 | dept_name | designation | emp_name | project | salary
+--------+---------------------------------+-----------+-------------+----------+---------+--------
+    123 | 2019-09-22 18:30:00.000000+0000 |       ISE |    Attender |    Sumit |    null |   3000
+    122 | 2019-08-21 18:30:00.000000+0000 |        BT |     Manager |  Rachana |    null |   2000
+    121 | 2019-07-20 18:30:00.000000+0000 |       CSE |    Attender |  Hithesh |    null |   1000
+
+(3 rows)
+cqlsh:employee> begin batch 
+            ... i
+cqlsh:employee> update Employee_info 
+            ... set project='hhh' where emp_name='Hithest';
+InvalidRequest: Error from server: code=2200 [Invalid query] message="Some partition key parts are missing: emp_id"
+cqlsh:employee> begin batch 
+            ... insert into Employee_info ( project) 
+            ... values ( 'hhh') apply batch;
+InvalidRequest: Error from server: code=2200 [Invalid query] message="Some partition key parts are missing: emp_id"
+cqlsh:employee> select * from Employee_info;
+
+ emp_id | date_of_joining                 | dept_name | designation | emp_name | project | salary
+--------+---------------------------------+-----------+-------------+----------+---------+--------
+    123 | 2019-09-22 18:30:00.000000+0000 |       ISE |    Attender |    Sumit |    null |   3000
+    122 | 2019-08-21 18:30:00.000000+0000 |        BT |     Manager |  Rachana |    null |   2000
+    121 | 2019-07-20 18:30:00.000000+0000 |       CSE |    Attender |  Hithesh |    null |   1000
+
+(3 rows)
+cqlsh:employee> update Employee_info set project='hhh' where emp_id=121;
+cqlsh:employee> select * from employee_info ;
+
+ emp_id | date_of_joining                 | dept_name | designation | emp_name | project | salary
+--------+---------------------------------+-----------+-------------+----------+---------+--------
+    123 | 2019-09-22 18:30:00.000000+0000 |       ISE |    Attender |    Sumit |    null |   3000
+    122 | 2019-08-21 18:30:00.000000+0000 |        BT |     Manager |  Rachana |    null |   2000
+    121 | 2019-07-20 18:30:00.000000+0000 |       CSE |    Attender |  Hithesh |     hhh |   1000
+
+(3 rows)
+cqlsh:employee> update Employee_info set project='yyy' where emp_id=122;
+cqlsh:employee> update Employee_info set project='zzz' where emp_id=123;
+cqlsh:employee> select * from Employee_info ; 
+
+ emp_id | date_of_joining                 | dept_name | designation | emp_name | project | salary
+--------+---------------------------------+-----------+-------------+----------+---------+--------
+    123 | 2019-09-22 18:30:00.000000+0000 |       ISE |    Attender |    Sumit |     zzz |   3000
+    122 | 2019-08-21 18:30:00.000000+0000 |        BT |     Manager |  Rachana |     yyy |   2000
+    121 | 2019-07-20 18:30:00.000000+0000 |       CSE |    Attender |  Hithesh |     hhh |   1000
+
+(3 rows)
+cqlsh:employee> insert into Employee_info ( emp_id, date_of_joining,dept_name, designation, emp_name, project, salary) values ( 124, 2019-10-23,'ML','Cleaner','Kenish','ppp',5000) using TTL=5 ; 
+SyntaxException: line 1:121 mismatched input '-10' expecting ')' (...) values ( 124, 2019[-10]...)
+cqlsh:employee> insert into Employee_info ( emp_id, date_of_joining,dept_name, designation, emp_name, project, salary) values ( 124, 2019-10-23,'ML','Cleaner','Kenish','ppp',5000) using TTL 5 ; 
+SyntaxException: line 1:121 mismatched input '-10' expecting ')' (...) values ( 124, 2019[-10]...)
+cqlsh:employee> insert into Employee_info ( emp_id, date_of_joining,dept_name, designation, emp_name, project, salary) values ( 124, 2019-10-23,'ML','Cleaner','Kenish', ,5000) using TTL 5 ; 
+SyntaxException: line 1:121 mismatched input '-10' expecting ')' (...) values ( 124, 2019[-10]...)
+cqlsh:employee> insert into Employee_info ( emp_id, date_of_joining,dept_name, designation, emp_name, project, salary) values ( 124, 2019-10-23,'ML','Cleaner','Kenish',5000) using TTL 5 ; 
+SyntaxException: line 1:121 mismatched input '-10' expecting ')' (...) values ( 124, 2019[-10]...)
+cqlsh:employee> insert into Employee_info ( emp_id, date_of_joining,dept_name, designation, emp_name, salary) values ( 124, 2019-10-23,'ML','Cleaner','Kenish', ,5000) using TTL 5 ; 
+SyntaxException: line 1:112 mismatched input '-10' expecting ')' (...) values ( 124, 2019[-10]...)
+cqlsh:employee> insert into Employee_info ( emp_id, date_of_joining,dept_name, designation, emp_name, salary) values ( 124, 2019-10-23,'ML','Cleaner','Kenish' ,5000) using TTL 5 ; 
+SyntaxException: line 1:112 mismatched input '-10' expecting ')' (...) values ( 124, 2019[-10]...)
+cqlsh:employee> insert into Employee_info ( emp_id, date_of_joining,dept_name, designation, emp_name, salary) values ( 124, '2019-10-23','ML','Cleaner','Kenish' ,5000) using TTL 5 ; 
+cqlsh:employee> select * from Employee_info ;
+
+ emp_id | date_of_joining                 | dept_name | designation | emp_name | project | salary
+--------+---------------------------------+-----------+-------------+----------+---------+--------
+    123 | 2019-09-22 18:30:00.000000+0000 |       ISE |    Attender |    Sumit |     zzz |   3000
+    122 | 2019-08-21 18:30:00.000000+0000 |        BT |     Manager |  Rachana |     yyy |   2000
+    121 | 2019-07-20 18:30:00.000000+0000 |       CSE |    Attender |  Hithesh |     hhh |   1000
+
+(3 rows)
+cqlsh:employee> insert into Employee_info ( emp_id, date_of_joining,dept_name, designation, emp_name, salary) values ( 124, '2019-10-23','ML','Cleaner','Kenish' ,5000) using TTL 15 ; 
+cqlsh:employee> select * from Employee_info ;
+
+ emp_id | date_of_joining                 | dept_name | designation | emp_name | project | salary
+--------+---------------------------------+-----------+-------------+----------+---------+--------
+    123 | 2019-09-22 18:30:00.000000+0000 |       ISE |    Attender |    Sumit |     zzz |   3000
+    122 | 2019-08-21 18:30:00.000000+0000 |        BT |     Manager |  Rachana |     yyy |   2000
+    121 | 2019-07-20 18:30:00.000000+0000 |       CSE |    Attender |  Hithesh |     hhh |   1000
+    124 | 2019-10-22 18:30:00.000000+0000 |        ML |     Cleaner |   Kenish |    null |   5000
+
+(4 rows)
+cqlsh:employee> select * from Employee_info ;
+
+ emp_id | date_of_joining                 | dept_name | designation | emp_name | project | salary
+--------+---------------------------------+-----------+-------------+----------+---------+--------
+    123 | 2019-09-22 18:30:00.000000+0000 |       ISE |    Attender |    Sumit |     zzz |   3000
+    122 | 2019-08-21 18:30:00.000000+0000 |        BT |     Manager |  Rachana |     yyy |   2000
+    121 | 2019-07-20 18:30:00.000000+0000 |       CSE |    Attender |  Hithesh |     hhh |   1000
+
+(3 rows)
+cqlsh:employee> 
+
