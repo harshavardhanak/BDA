@@ -1,0 +1,266 @@
+Microsoft Windows [Version 10.0.19042.867]
+(c) 2020 Microsoft Corporation. All rights reserved.
+
+C:\Program Files\MongoDB\Server\4.4\bin>mongo
+MongoDB shell version v4.4.4
+connecting to: mongodb://127.0.0.1:27017/?compressors=disabled&gssapiServiceName=mongodb
+Implicit session: session { "id" : UUID("ccd38262-1da1-477e-b220-764bf2107e3c") }
+MongoDB server version: 4.4.4
+---
+The server generated these startup warnings when booting:
+        2021-04-02T23:41:14.502+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+---
+---
+        Enable MongoDB's free cloud-based monitoring service, which will then receive and display
+        metrics about your deployment (disk utilization, CPU, operation statistics, etc).
+
+        The monitoring data will be available on a MongoDB website with a unique URL accessible to you
+        and anyone you share the URL with. MongoDB may use this information to make product
+        improvements and to suggest MongoDB products and deployment options to you.
+
+        To enable free monitoring, run the following command: db.enableFreeMonitoring()
+        To permanently disable this reminder, run the following command: db.disableFreeMonitoring()
+---
+> show dbs
+admin   0.000GB
+config  0.000GB
+local   0.000GB
+> use Detils
+switched to db Detils
+> db
+Detils
+> db.createCollection("student")
+{ "ok" : 1 }
+> show collections
+student
+> db.student.insertMany([ { '_id':1, Rollno : 10 , Age: 20, ContactNo : 123456789, Email_id:'first@gmail.com' }, {db.student.insertMany([ { '_id':1, Rollno : 10 , Age: 20, ContactNo : 123456789, Email_id:'first@gmail.com' }, {db.student.insertMany([ { '_id':1, Rollno : 10 , Age: 20, ContactNo : 123456789, Email_id:'first@gmail.com' }, { '_id':2 , Rollno: 11, Age:21, ContactNo : 234567891, Email_id:'second@gmail.com'}])
+{ "acknowledged" : true, "insertedIds" : [ 1, 2 ] }
+> db.student.find()
+{ "_id" : 1, "Rollno" : 10, "Age" : 20, "ContactNo" : 123456789, "Email_id" : "first@gmail.com" }
+{ "_id" : 2, "Rollno" : 11, "Age" : 21, "ContactNo" : 234567891, "Email_id" : "second@gmail.com" }
+> db.student.insertOne({ '_id': 3, Rollno : 22, Age:22, Contactno : 345678912: Email_id:"third@gmail.com"})
+uncaught exception: SyntaxError: missing } after property list :
+@(shell):1:75
+> db.student.insertOne({ '_id': 3, Rollno : 22, Age:22, Contactno : 345678912: Email_id:"third@gmail.com" })
+uncaught exception: SyntaxError: missing } after property list :
+@(shell):1:75
+> db.student.insert({ '_id': 3, Rollno : 22, Age:22, Contactno : 345678912: Email_id:"third@gmail.com" })
+uncaught exception: SyntaxError: missing } after property list :
+@(shell):1:72
+> db.student.insert({ '_id': 3, Rollno : 22, Age:22, Contactno : 345678912, Email_id:"third@gmail.com" })
+WriteResult({ "nInserted" : 1 })
+> db.student.find()
+{ "_id" : 1, "Rollno" : 10, "Age" : 20, "ContactNo" : 123456789, "Email_id" : "first@gmail.com" }
+{ "_id" : 2, "Rollno" : 11, "Age" : 21, "ContactNo" : 234567891, "Email_id" : "second@gmail.com" }
+{ "_id" : 3, "Rollno" : 22, "Age" : 22, "Contactno" : 345678912, "Email_id" : "third@gmail.com" }
+> db.student.update({ Rollno : 10 }, {$set:{ Email_id:'updated@gmail.com'}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.student.find()
+{ "_id" : 1, "Rollno" : 10, "Age" : 20, "ContactNo" : 123456789, "Email_id" : "updated@gmail.com" }
+{ "_id" : 2, "Rollno" : 11, "Age" : 21, "ContactNo" : 234567891, "Email_id" : "second@gmail.com" }
+{ "_id" : 3, "Rollno" : 22, "Age" : 22, "Contactno" : 345678912, "Email_id" : "third@gmail.com" }
+> db.getCollection(student).update({}, {$set : { name : 'Harsha'}},false,true)
+uncaught exception: ReferenceError: student is not defined :
+@(shell):1:1
+> db.getCollection('student').update({}, {$set : { name : 'Harsha'}},false,true)
+WriteResult({ "nMatched" : 3, "nUpserted" : 0, "nModified" : 3 })
+> db.student.find()
+{ "_id" : 1, "Rollno" : 10, "Age" : 20, "ContactNo" : 123456789, "Email_id" : "updated@gmail.com", "name" : "Harsha" }
+{ "_id" : 2, "Rollno" : 11, "Age" : 21, "ContactNo" : 234567891, "Email_id" : "second@gmail.com", "name" : "Harsha" }
+{ "_id" : 3, "Rollno" : 22, "Age" : 22, "Contactno" : 345678912, "Email_id" : "third@gmail.com", "name" : "Harsha" }
+> db.student.update({Rollno : 11}, {$set:{ name : 'kenish'}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.student.update({ Rollno : 12 } , { $set: { name : 'harshit'}})
+WriteResult({ "nMatched" : 0, "nUpserted" : 0, "nModified" : 0 })
+> db.student.find()
+{ "_id" : 1, "Rollno" : 10, "Age" : 20, "ContactNo" : 123456789, "Email_id" : "updated@gmail.com", "name" : "Harsha" }
+{ "_id" : 2, "Rollno" : 11, "Age" : 21, "ContactNo" : 234567891, "Email_id" : "second@gmail.com", "name" : "kenish" }
+{ "_id" : 3, "Rollno" : 22, "Age" : 22, "Contactno" : 345678912, "Email_id" : "third@gmail.com", "name" : "Harsha" }
+> db.student.update({Rollno : 22 } , { $set:{ name: 'Harshit'}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.student.find()
+{ "_id" : 1, "Rollno" : 10, "Age" : 20, "ContactNo" : 123456789, "Email_id" : "updated@gmail.com", "name" : "Harsha" }
+{ "_id" : 2, "Rollno" : 11, "Age" : 21, "ContactNo" : 234567891, "Email_id" : "second@gmail.com", "name" : "kenish" }
+{ "_id" : 3, "Rollno" : 22, "Age" : 22, "Contactno" : 345678912, "Email_id" : "third@gmail.com", "name" : "Harshit" }
+> db.student.update({ name : 'Harsha'}, { $set:{ name : 'FEM' }})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.student.find()
+{ "_id" : 1, "Rollno" : 10, "Age" : 20, "ContactNo" : 123456789, "Email_id" : "updated@gmail.com", "name" : "FEM" }
+{ mongoexport --db Detils --collection student --type=csv --fields _id, Rollno, Age, ContactNo, Email_id --out /data/db/output.csv
+uncaught exception: SyntaxError: unexpected token: identifier :lds _id, Rollno, Age, ContactNo, Email_id --out /data/Output/output.c
+@(shell):1:14 --db Detils --collection student --type=csv --fields _id, Rollno, Age, ContactNo, Email_id --out /data/Output/output.cs
+> mongoexport --db Detils --collection student --type=csv --fields _id, Rollno, Age, ContactNo, Email_id --out /data/Output/output.csv
+> mongoexport --db Detils --collection student --type=csv --fields _id, Rollno, Age, ContactNo, Email_id --out /data/Output/output.csv
+> mongoexport --db Detils --collection student --type=csv --fields _id, Rollno, Age, ContactNo, Email_id --out /data/Output/output.csv
+>
+>
+>
+>
+>
+
+>
+>
+>
+>
+>
+> db.student.drop()
+true
+
+@(shell):1:1
+> > db.student.insertMany([ { '_id':1, Rollno : 10 , Age: 20, ContactNo : 123456789, Email_id:'first@gmail.com' }, {db.student.insertMany([ { '_id':1, Rollno : 10 , Age: 20, ContactNo : 123456789, Email_id:'first@gmail.com' }, {db.student.insertMany([ { '_id':1, Rollno : 10 , Age: 20, ContactNo : 123456789, Email_id:'first@gmail.com' }, { '_id':2 , Rollno: 11, Age:21, ContactNo : 234567891, Email_id:'second@gmail.com'}])
+... { "acknowledged" : true, "insertedIds" : [ 1, 2 ] }
+... > db.student.find()
+... { "_id" : 1, "Rollno" : 10, "Age" : 20, "ContactNo" : 123456789, "Email_id" : "first@gmail.com" }
+... { "_id" : 2, "Rollno" : 11, "Age" : 21, "ContactNo" : 234567891, "Email_id" : "second@gmail.com" }
+... > db.student.insertOne({ '_id': 3, Rollno : 22, Age:22, Contactno : 345678912: Email_id:"third@gmail.com"})
+... uncaught exception: SyntaxError: missing } after property list :
+... @(shell):1:75
+... > db.student.insertOne({ '_id': 3, Rollno : 22, Age:22, Contactno : 345678912: Email_id:"third@gmail.com" })
+... uncaught exception: SyntaxError: missing } after property list :
+... @(shell):1:75
+... > db.student.insert({ '_id': 3, Rollno : 22, Age:22, Contactno : 345678912: Email_id:"third@gmail.com" })
+... uncaught exception: SyntaxError: missing } after property list :
+uncaught exception: SyntaxError: expected expression, got '>' :
+@(shell):1:0
+> @(shell):1:72
+uncaught exception: SyntaxError: illegal character :
+@(shell):1:0
+> > db.student.insert({ '_id': 3, Rollno : 22, Age:22, Contactno : 345678912, Email_id:"third@gmail.com" })
+uncaught exception: SyntaxError: expected expression, got '>' :
+@(shell):1:0
+> WriteResult({ "nInserted" : 1 })
+uncaught exception: TypeError: bulkResult.upserted is undefined :
+WriteResult@src/mongo/shell/bulk_api.js:117:1
+WriteResult@src/mongo/shell/bulk_api.js:108:20
+@(shell):1:1
+> > db.student.find()
+uncaught exception: SyntaxError: expected expression, got '>' :
+@(shell):1:0
+> { "_id" : 1, "Rollno" : 10, "Age" : 20, "ContactNo" : 123456789, "Email_id" : "first@gmail.com" }
+uncaught exception: SyntaxError: unexpected token: ':' :
+@(shell):1:8
+> { "_id" : 2, "Rollno" : 11, "Age" : 21, "ContactNo" : 234567891, "Email_id" : "second@gmail.com" }
+uncaught exception: SyntaxError: unexpected token: ':' :
+@(shell):1:8
+> { "_id" : 3, "Rollno" : 22, "Age" : 22, "Contactno" : 345678912, "Email_id" : "third@gmail.com" }
+uncaught exception: SyntaxError: unexpected token: ':' :
+@(shell):1:8
+> > db.student.update({ Rollno : 10 }, {$set:{ Email_id:'updated@gmail.com'}})
+uncaught exception: SyntaxError: expected expression, got '>' :
+@(shell):1:0
+> WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+uncaught exception: TypeError: bulkResult.upserted is undefined :
+WriteResult@src/mongo/shell/bulk_api.js:117:1
+WriteResult@src/mongo/shell/bulk_api.js:108:20
+@(shell):1:1
+> > db.student.find()
+uncaught exception: SyntaxError: expected expression, got '>' :
+@(shell):1:0
+> { "_id" : 1, "Rollno" : 10, "Age" : 20, "ContactNo" : 123456789, "Email_id" : "updated@gmail.com" }
+uncaught exception: SyntaxError: unexpected token: ':' :
+@(shell):1:8
+> { "_id" : 2, "Rollno" : 11, "Age" : 21, "ContactNo" : 234567891, "Email_id" : "second@gmail.com" }
+uncaught exception: SyntaxError: unexpected token: ':' :
+@(shell):1:8
+> { "_id" : 3, "Rollno" : 22, "Age" : 22, "Contactno" : 345678912, "Email_id" : "third@gmail.com" }
+uncaught exception: SyntaxError: unexpected token: ':' :
+@(shell):1:8
+> > db.getCollection(student).update({}, {$set : { name : 'Harsha'}},false,true)
+uncaught exception: SyntaxError: expected expression, got '>' :
+@(shell):1:0
+> uncaught exception: ReferenceError: student is not defined :
+... @(shell):1:1
+uncaught exception: SyntaxError: unexpected token: identifier :
+@(shell):1:9
+> > db.getCollection('student').update({}, {$set : { name : 'Harsha'}},false,true)
+uncaught exception: SyntaxError: expected expression, got '>' :
+@(shell):1:0
+> WriteResult({ "nMatched" : 3, "nUpserted" : 0, "nModified" : 3 })
+uncaught exception: TypeError: bulkResult.upserted is undefined :
+WriteResult@src/mongo/shell/bulk_api.js:117:1
+WriteResult@src/mongo/shell/bulk_api.js:108:20
+@(shell):1:1
+> > db.student.find()
+uncaught exception: SyntaxError: expected expression, got '>' :
+@(shell):1:0
+> { "_id" : 1, "Rollno" : 10, "Age" : 20, "ContactNo" : 123456789, "Email_id" : "updated@gmail.com", "name" : "Harsha" }
+uncaught exception: SyntaxError: unexpected token: ':' :
+@(shell):1:8
+> { "_id" : 2, "Rollno" : 11, "Age" : 21, "ContactNo" : 234567891, "Email_id" : "second@gmail.com", "name" : "Harsha" }
+uncaught exception: SyntaxError: unexpected token: ':' :
+@(shell):1:8
+> { "_id" : 3, "Rollno" : 22, "Age" : 22, "Contactno" : 345678912, "Email_id" : "third@gmail.com", "name" : "Harsha" }
+uncaught exception: SyntaxError: unexpected token: ':' :
+@(shell):1:8
+> > db.student.update({Rollno : 11}, {$set:{ name : 'kenish'}})
+uncaught exception: SyntaxError: expected expression, got '>' :
+@(shell):1:0
+> WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+uncaught exception: TypeError: bulkResult.upserted is undefined :
+WriteResult@src/mongo/shell/bulk_api.js:117:1
+WriteResult@src/mongo/shell/bulk_api.js:108:20
+@(shell):1:1
+> > db.student.update({ Rollno : 12 } , { $set: { name : 'harshit'}})
+uncaught exception: SyntaxError: expected expression, got '>' :
+@(shell):1:0
+> WriteResult({ "nMatched" : 0, "nUpserted" : 0, "nModified" : 0 })
+uncaught exception: TypeError: bulkResult.upserted is undefined :
+WriteResult@src/mongo/shell/bulk_api.js:117:1
+WriteResult@src/mongo/shell/bulk_api.js:108:20
+@(shell):1:1
+> > db.student.find()
+uncaught exception: SyntaxError: expected expression, got '>' :
+@(shell):1:0
+> { "_id" : 1, "Rollno" : 10, "Age" : 20, "ContactNo" : 123456789, "Email_id" : "updated@gmail.com", "name" : "Harsha" }
+uncaught exception: SyntaxError: unexpected token: ':' :
+@(shell):1:8
+> { "_id" : 2, "Rollno" : 11, "Age" : 21, "ContactNo" : 234567891, "Email_id" : "second@gmail.com", "name" : "kenish" }
+uncaught exception: SyntaxError: unexpected token: ':' :
+@(shell):1:8
+> { "_id" : 3, "Rollno" : 22, "Age" : 22, "Contactno" : 345678912, "Email_id" : "third@gmail.com", "name" : "Harsha" }
+uncaught exception: SyntaxError: unexpected token: ':' :
+@(shell):1:8
+> > db.student.update({Rollno : 22 } , { $set:{ name: 'Harshit'}})
+uncaught exception: SyntaxError: expected expression, got '>' :
+@(shell):1:0
+> WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+uncaught exception: TypeError: bulkResult.upserted is undefined :
+WriteResult@src/mongo/shell/bulk_api.js:117:1
+WriteResult@src/mongo/shell/bulk_api.js:108:20
+@(shell):1:1
+> > db.student.find()
+uncaught exception: SyntaxError: expected expression, got '>' :
+@(shell):1:0
+> { "_id" : 1, "Rollno" : 10, "Age" : 20, "ContactNo" : 123456789, "Email_id" : "updated@gmail.com", "name" : "Harsha" }
+uncaught exception: SyntaxError: unexpected token: ':' :
+@(shell):1:8
+> { "_id" : 2, "Rollno" : 11, "Age" : 21, "ContactNo" : 234567891, "Email_id" : "second@gmail.com", "name" : "kenish" }
+uncaught exception: SyntaxError: unexpected token: ':' :
+@(shell):1:8
+> { "_id" : 3, "Rollno" : 22, "Age" : 22, "Contactno" : 345678912, "Email_id" : "third@gmail.com", "name" : "Harshit" }
+uncaught exception: SyntaxError: unexpected token: ':' :
+@(shell):1:8
+> > db.student.update({ name : 'Harsha'}, { $set:{ name : 'FEM' }})
+uncaught exception: SyntaxError: expected expression, got '>' :
+@(shell):1:0
+> WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+uncaught exception: TypeError: bulkResult.upserted is undefined :
+WriteResult@src/mongo/shell/bulk_api.js:117:1
+WriteResult@src/mongo/shell/bulk_api.js:108:20
+@(shell):1:1
+> > db.student.find()
+uncaught exception: SyntaxError: expected expression, got '>' :
+@(shell):1:0
+> { "_id" : 1, "Rollno" : 10, "Age" : 20, "ContactNo" : 123456789, "Email_id" : "updated@gmail.com", "name" : "FEM" }
+uncaught exception: SyntaxError: unexpected token: ':' :
+@(shell):1:8
+> { mongoexport --db Detils --collection student --type=csv --fields _id, Rollno, Age, ContactNo, Email_id --out /data/db/output.csv
+... uncaught exception: SyntaxError: unexpected token: identifier :lds _id, Rollno, Age, ContactNo, Email_id --out /data/Output/output.c
+... @(shell):1:14 --db Detils --collection student --type=csv --fields _id, Rollno, Age, ContactNo, Email_id --out /data/Output/output.cs
+... > mongoexport --db Detils --collection student --type=csv --fields _id, Rollno, Age, ContactNo, Email_id --out /data/Output/output.csv
+... > mongoexport --db Detils --collection student --type=csv --fields _id, Rollno, Age, ContactNo, Email_id --out /data/Output/output.csv
+... > mongoexport --db Detils --collection student --type=csv --fields _id, Rollno, Age, ContactNo, Email_id --out /data/Output/output.csv
+... >
+... >
+... >
+... >mongoexport --collection=student --db=Detils --out=/data/output.csv
