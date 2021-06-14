@@ -37,9 +37,7 @@ cqlsh:employee> begin batch
             ... insert into Empoyee_info ( emp_id, date_of_joining, dept_name, designation, emp_name, salary) values ( 123, '2019-09-23', 'ISE', 'Attender', 'Sumit',3000);
             ... ;
             ... apply batch ;
-SyntaxException: line 5:0 mismatched input ';' expecting K_APPLY (... 'Attender', 'Sumit',3000);[;]...)
-cqlsh:employee> begin batch  insert into Employee_info ( emp_id, date_of_joining, dept_name, designation,emp_name,salary) values ( 121,'2019-07-21','CSE','Manager','Harsha',1000) insert into Employee_info ( emp_id, date_of_joining, dept_name, designation, emp_name, salary) values ( 122, '2019-08-22','BT' , 'Manager', 'Rachana',2000) insert into Empoyee_info ( emp_id, date_of_joining, dept_name, designation, emp_name, salary) values ( 123, '2019-09-23', 'ISE', 'Attender', 'Sumit',3000)  apply batch ;
-InvalidRequest: Error from server: code=2200 [Invalid query] message="unconfigured table empoyee_info"
+
 cqlsh:employee> begin batch  insert into Employee_info ( emp_id, date_of_joining, dept_name, designation,emp_name,salary) values ( 121,'2019-07-21','CSE','Manager','Harsha',1000) insert into Employee_info ( emp_id, date_of_joining, dept_name, designation, emp_name, salary) values ( 122, '2019-08-22','BT' , 'Manager', 'Rachana',2000) insert into Employee_info ( emp_id, date_of_joining, dept_name, designation, emp_name, salary) values ( 123, '2019-09-23', 'ISE', 'Attender', 'Sumit',3000)  apply batch ;
 cqlsh:employee> select * from Employee_info ; 
 
@@ -50,11 +48,7 @@ cqlsh:employee> select * from Employee_info ;
     121 | 2019-07-20 18:30:00.000000+0000 |       CSE |     Manager |   Harsha |   1000
 
 (3 rows)
-cqlsh:employee> update Employee_info 
-            ... set emp_name = 'Hithesh' and designation = 'Attender' where emp_id = 121;
-SyntaxException: line 2:25 mismatched input 'and' expecting K_WHERE (...Employee_info set emp_name = 'Hithesh' [and]...)
-cqlsh:employee> set emp_name = 'Hithesh', designation = 'Attender' where emp_id = 121;
-SyntaxException: line 1:0 no viable alternative at input 'set' ([set]...)
+
 cqlsh:employee> update Employee_info set emp_name='Hithesh',designation='Attender' where emp_id=121; 
 cqlsh:employee> select * from Employee_info;
 
